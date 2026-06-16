@@ -2,7 +2,7 @@
 
 [![GitHub release](https://img.shields.io/github/v/release/TheBoutrosLab/tool-version-check)](https://github.com/TheBoutrosLab/tool-version-check/actions/workflows/prepare-release.yaml)
 
-Template Repository for the Boutros Lab Python packages. Describe a simple overview of use/purpose here.
+Tool for checking and reporting the latest available versions of tools.
 
 ## Description
 
