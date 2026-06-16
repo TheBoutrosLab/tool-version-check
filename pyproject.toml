@@ -1,0 +1,162 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "REPLACE_PACKAGE"
+requires-python = ">=3.10"
+authors = [
+    {name = 'REPLACE_NAME', email = 'REPLACE_EMAIL@example.org'}
+]
+description = 'Libraries for building web applications in Boutros Lab.'
+classifiers = [
+    # Add or remove any appropriate classifiers
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Development Status :: 4 - Beta",
+    "Natural Language :: English"
+]
+
+dependencies = []
+
+dynamic = ["version"]
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.urls]
+"Homepage" = "https://github.com/TheBoutrosLab/REPLACE_PACKAGE_REPO"
+"Bug Tracker" = "https://github.com/TheBoutrosLab/REPLACE_PACKAGE_REPO/issues"
+"Repository" = "https://github.com/TheBoutrosLab/REPLACE_PACKAGE_REPO.git"
+"Changelog" = "https://github.com/TheBoutrosLab/REPLACE_PACKAGE_REPO/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+git_describe_command = "git describe --dirty --tags --long --match 'v[0-9]*.[0-9]*.[0-9]*'"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "REPLACE_PACKAGE/_version.py"
+
+[project.optional-dependencies]
+dev-dependencies = [
+    "pytest ~= 7.4",
+    "pytest-mock ~= 3.12",
+    "mock ~= 5.1",
+    "pytest-cov ~= 4.1",
+    "pyright ~= 1.1",
+    "isort ~= 5.12",
+    "black ~= 23.11",
+    "pylint ~= 3.0"
+]
+
+[tool.pyright]
+pythonVersion = "3.10"
+
+include = [
+    "*.py",
+    "REPLACE_PACKAGE/",
+    "test/"
+]
+
+exclude = [
+    "**/build",
+    "**/dist",
+    "**/.venv",
+    "**/.pytest_cache",
+    ".github",
+    ".git",
+    "**/typings",
+    "**/node_modules",
+    "**/__pycache__"
+]
+
+extraPaths = []
+
+stubPath = "./typings"
+
+useLibraryCodeForTypes = true
+
+typeCheckingMode = "strict"
+
+reportImportCycles = "information"
+reportCallInDefaultInitializer = "warning"
+reportImplicitOverride = "information"
+reportImplicitStringConcatenation = "warning"
+reportMissingSuperCall = "information"
+reportPropertyTypeMismatch = "error"
+reportShadowedImports = "information"
+reportUninitializedInstanceVariable = "information"
+reportUnnecessaryTypeIgnoreComment = "information"
+reportUnusedCallResult = "information"
+reportMissingTypeStubs = "information"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test"
+]
+
+addopts = [
+    "--import-mode=importlib",
+    # to debug tests without altering these options see
+    # https://pytest-cov.readthedocs.io/en/latest/debuggers.html
+    # For more information regarding doing this with VSCode see
+    # https://github.com/microsoft/vscode-python/issues/21255
+    # and
+    # https://github.com/microsoft/vscode-python/issues/21845
+    "--cov=.",
+    "--junitxml=pytest.xml",
+    "-o=junit_family=xunit2",
+    "--cov-report=xml:cov.xml"
+]
+
+python_files = "test_*.py"
+
+norecursedirs = "__pycache__ build dist .pytest_cache *.egg-info .venv"
+
+[tool.coverage.report]
+include_namespace_packages = true
+
+[tool.coverage.run]
+relative_files = true
+omit = [
+    ".venv/*",
+    ".github-venv/*",
+    "*/test/*",
+    "build/*",
+    "*/build/*",
+    ".pytest_cache/*",
+    ".github/*",
+    ".git/*",
+    "typings/*",
+    "*/typings/*",
+    "node_modules/*",
+    "__pycache__/*",
+    "*/__pycache__/*"
+]
+
+[tool.black]
+exclude = "./(typings|build|dist)"
+
+[tool.isort]
+profile = "black"
+src_paths = ["REPLACE_PACKAGE"]
+skip_glob = ["typings", "build", "dist"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+env_list =
+    py3.10
+    py3.12
+
+[testenv]
+deps =
+    pytest
+    pytest-cov
+commands = pytest test --doctest-modules --junitxml=junit/test-results.xml
+"""
