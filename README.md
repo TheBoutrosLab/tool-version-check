@@ -1,20 +1,20 @@
-# Package Title
+# versioncheck
 
-[![GitHub release](https://img.shields.io/github/v/release/TheBoutrosLab/template-python-package)](https://github.com/TheBoutrosLab/template-python-package/actions/workflows/prepare-release.yaml)
+[![GitHub release](https://img.shields.io/github/v/release/TheBoutrosLab/tool-version-check)](https://github.com/TheBoutrosLab/tool-version-check/actions/workflows/prepare-release.yaml)
 
-Template Repository for the Boutros Lab Python packages. Describe a simple overview of use/purpose here.
+Tool for checking and reporting the latest available versions of tools.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+
 
 ## License
 
 Author: Name1, Name2
 
-[This project] is licensed under the GNU General Public License version 2. See the file LICENSE.md for the terms of the GNU GPL license.
+tool-version-check is licensed under the GNU General Public License version 2. See the file LICENSE.md for the terms of the GNU GPL license.
 
-<one line to give the project/program's name and a brief idea of what it does.>
+tool-version-check identifies the latest available versions of tools.
 
 Copyright (C) 2026 Sanford Burnham Prebys Medical Discovery Institute ("Boutros Lab") All rights reserved.
 
