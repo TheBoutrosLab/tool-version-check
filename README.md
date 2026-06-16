@@ -1,6 +1,6 @@
-# Package Title
+# versioncheck
 
-[![GitHub release](https://img.shields.io/github/v/release/TheBoutrosLab/template-python-package)](https://github.com/TheBoutrosLab/template-python-package/actions/workflows/prepare-release.yaml)
+[![GitHub release](https://img.shields.io/github/v/release/TheBoutrosLab/tool-version-check)](https://github.com/TheBoutrosLab/tool-version-check/actions/workflows/prepare-release.yaml)
 
 Template Repository for the Boutros Lab Python packages. Describe a simple overview of use/purpose here.
 
