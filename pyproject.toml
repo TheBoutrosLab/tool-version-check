@@ -51,7 +51,7 @@ dev-dependencies = [
     "pyright ~= 1.1",
     "isort ~= 5.12",
     "black ~= 23.11",
-    "pylint ~= 3.0"
+    "pylint ~= 4.0"
 ]
 
 [tool.pyright]
