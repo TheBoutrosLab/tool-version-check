@@ -49,7 +49,7 @@ dev-dependencies = [
     "mock ~= 5.1",
     "pytest-cov ~= 4.1",
     "pyright ~= 1.1",
-    "isort ~= 5.12",
+    "isort ~= 8.0",
     "black ~= 26.5",
     "pylint ~= 4.0"
 ]
