@@ -21,5 +21,4 @@ __all__ = [
     "ToolSpec",
     "VersionCandidate",
     "VersionStatus",
-    "__version__",
 ]
