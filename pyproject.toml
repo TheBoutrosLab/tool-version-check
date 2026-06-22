@@ -8,7 +8,7 @@ requires-python = ">=3.10"
 authors = [
     {name = 'REPLACE_NAME', email = 'REPLACE_EMAIL@example.org'}
 ]
-description = 'Libraries for building web applications in Boutros Lab.'
+description = 'Check and report the latest available versions of software tools.'
 classifiers = [
     # Add or remove any appropriate classifiers
     "Programming Language :: Python :: 3",
@@ -22,10 +22,17 @@ classifiers = [
     "Natural Language :: English"
 ]
 
-dependencies = []
+dependencies = [
+    "packaging",
+    "PyYAML",
+    "requests"
+]
 
 dynamic = ["version"]
 readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.scripts]
+versioncheck = "versioncheck.cli:main"
 
 [project.urls]
 "Homepage" = "https://github.com/TheBoutrosLab/tool-version-check"
