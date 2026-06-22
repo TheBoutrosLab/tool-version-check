@@ -5,4 +5,21 @@ try:
 except ModuleNotFoundError:
     __version__ = "0+unknown"
 
-__all__: list[str] = []
+from versioncheck.models import (
+    CheckReport,
+    CheckResult,
+    SourceName,
+    ToolSpec,
+    VersionCandidate,
+    VersionStatus,
+)
+
+__all__ = [
+    "CheckReport",
+    "CheckResult",
+    "SourceName",
+    "ToolSpec",
+    "VersionCandidate",
+    "VersionStatus",
+    "__version__",
+]
