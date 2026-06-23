@@ -15,6 +15,10 @@ def test_normalize_version_trims_and_strips_leading_v():
     assert normalize_version(" v1.2.3 ") == "1.2.3"
 
 
+def test_normalize_version_keeps_leading_v_when_not_followed_by_digit():
+    assert normalize_version("v-beta") == "v-beta"
+
+
 def test_normalize_version_uses_named_pattern_group():
     assert (
         normalize_version(
@@ -28,9 +32,10 @@ def test_normalize_version_uses_first_pattern_group():
     assert normalize_version("samtools-1.20.tar.bz2", r"samtools-(\d+\.\d+)") == "1.20"
 
 
-def test_normalize_version_ignores_empty_and_obviously_invalid_versions():
+def test_normalize_version_only_ignores_empty_versions():
     assert normalize_version("") is None
-    assert normalize_version("latest") is None
+    assert normalize_version("latest") == "latest"
+    assert normalize_version("deadbeef") == "deadbeef"
 
 
 def test_normalize_version_rejects_invalid_pattern():
@@ -47,9 +52,8 @@ def test_compare_versions_has_predictable_fallback_ordering():
     assert compare_versions("tool-2", "tool-10") < 0
 
 
-def test_compare_versions_rejects_unversioned_values():
-    with pytest.raises(VersionParseError):
-        compare_versions("latest", "1.0.0")
+def test_compare_versions_accepts_arbitrary_version_strings():
+    assert compare_versions("latest", "stable") < 0
 
 
 def test_prerelease_detection_uses_pep440_versions():
@@ -79,8 +83,11 @@ def test_select_latest_candidate_can_include_prereleases():
     assert latest == prerelease
 
 
-def test_make_version_candidate_ignores_non_version_values():
-    assert make_version_candidate("latest", "github") is None
+def test_make_version_candidate_accepts_non_digit_values():
+    candidate = make_version_candidate("deadbeef", "github")
+
+    assert candidate is not None
+    assert candidate.normalized_version == "deadbeef"
 
 
 def test_calculate_status_values():
@@ -88,4 +95,4 @@ def test_calculate_status_values():
     assert calculate_status("1.0.0", "1.0.1") == "outdated"
     assert calculate_status("1.0.1", "1.0.0") == "newer_than_source"
     assert calculate_status(None, "1.0.0") == "unknown"
-    assert calculate_status("latest", "1.0.0") == "unknown"
+    assert calculate_status("latest", "latest") == "current"
