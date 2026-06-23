@@ -11,13 +11,12 @@ from packaging.version import InvalidVersion, Version
 from versioncheck.errors import VersionParseError
 from versioncheck.models import SourceName, VersionCandidate, VersionStatus
 
-_HAS_DIGIT_RE = re.compile(r"\d")
 _LEADING_V_RE = re.compile(r"^[vV](?=\d)")
 _NATURAL_TOKEN_RE = re.compile(r"\d+|\D+")
 
 
 def normalize_version(raw_version: str, version_pattern: str | None = None) -> str | None:
-    """Normalize a raw version string or return None when it is not version-like."""
+    """Normalize a raw version string or return None when it is empty."""
 
     value = raw_version.strip()
     if value == "":
@@ -29,7 +28,7 @@ def normalize_version(raw_version: str, version_pattern: str | None = None) -> s
             return None
 
     value = _LEADING_V_RE.sub("", value.strip())
-    if value == "" or _HAS_DIGIT_RE.search(value) is None:
+    if value == "":
         return None
 
     return value
