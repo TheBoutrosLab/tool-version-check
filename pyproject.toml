@@ -115,7 +115,7 @@ addopts = [
     # https://github.com/microsoft/vscode-python/issues/21255
     # and
     # https://github.com/microsoft/vscode-python/issues/21845
-    "--cov=.",
+    "--cov=versioncheck",
     "--junitxml=pytest.xml",
     "-o=junit_family=xunit2",
     "--cov-report=xml:cov.xml"
