@@ -90,7 +90,7 @@ tools:
     assert report.results[1].status == "outdated"
     assert report.has_outdated is True
     assert conda_provider.seen_specs[0].metadata["channels"] == ["bioconda"]
-    assert conda_provider.seen_specs[0].metadata["subdirs"] == ["linux-64"]
+    assert "subdirs" not in conda_provider.seen_specs[0].metadata
 
 
 def test_version_checker_continues_after_known_provider_failure():

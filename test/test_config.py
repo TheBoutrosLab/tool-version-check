@@ -4,7 +4,7 @@ from versioncheck.config import load_config
 from versioncheck.errors import ConfigError
 
 
-def test_load_config_merges_defaults_provider_options_and_tool_metadata(tmp_path):
+def test_load_config_keeps_provider_options_separate_from_tool_metadata(tmp_path):
     path = tmp_path / "tools.yaml"
     path.write_text(
         """
@@ -44,7 +44,11 @@ tools:
     loaded_config = load_config(path)
 
     assert loaded_config.path == path
+    assert loaded_config.provider_options["github"]["timeout_seconds"] == 5
+    assert loaded_config.provider_options["github"]["use_cache"] is True
     assert loaded_config.provider_options["conda"]["channels"] == ["conda-forge"]
+    assert loaded_config.provider_options["conda"]["subdirs"] == ["linux-64"]
+    assert loaded_config.provider_options["conda"]["timeout_seconds"] == 30
 
     github_tool = loaded_config.tools[0]
     assert github_tool.name == "samtools-github"
@@ -53,19 +57,39 @@ tools:
     assert github_tool.current_version == "1.20"
     assert github_tool.include_prereleases is True
     assert github_tool.version_pattern == "^v?(.*)$"
-    assert github_tool.metadata["platform"] == "linux"
-    assert github_tool.metadata["timeout_seconds"] == 5
-    assert github_tool.metadata["use_cache"] is True
+    assert github_tool.metadata == {"platform": "linux"}
 
     conda_tool = loaded_config.tools[1]
     assert conda_tool.name == "bwa"
     assert conda_tool.source == "conda"
     assert conda_tool.include_prereleases is False
-    assert conda_tool.metadata["platform"] == "linux"
-    assert conda_tool.metadata["channels"] == ["bioconda"]
-    assert conda_tool.metadata["subdirs"] == ["linux-64"]
-    assert conda_tool.metadata["timeout_seconds"] == 30
-    assert conda_tool.metadata["note"] == "tool-level"
+    assert conda_tool.metadata == {
+        "channels": ["bioconda"],
+        "note": "tool-level",
+        "platform": "linux",
+    }
+
+
+def test_load_config_does_not_copy_provider_token_into_tool_metadata(tmp_path):
+    path = tmp_path / "tools.yaml"
+    path.write_text(
+        """
+provider_options:
+  github:
+    token: secret-token
+
+tools:
+  - name: samtools
+    source: github
+    package: samtools/samtools
+""",
+        encoding="utf-8",
+    )
+
+    loaded_config = load_config(path)
+
+    assert loaded_config.provider_options["github"]["token"] == "secret-token"
+    assert "token" not in loaded_config.tools[0].metadata
 
 
 def test_load_config_requires_tools_list(tmp_path):
