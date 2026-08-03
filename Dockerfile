@@ -35,11 +35,12 @@ ARG CONDA_ENV_PATH
 COPY --from=builder ${CONDA_ENV_PATH} ${CONDA_ENV_PATH}
 
 ENV CONDA_ENV_PATH="${CONDA_ENV_PATH}" \
+    HOME="/home/bldocker" \
     PATH="${CONDA_ENV_PATH}/bin:${PATH}"
 
 # Add a non-root user/group called bldocker.
 RUN groupadd -g 500001 bldocker && \
-    useradd -r -u 500001 -g bldocker bldocker
+    useradd -m -d /home/bldocker -r -u 500001 -g bldocker bldocker
 
 # Change the default user to bldocker from root.
 USER bldocker
