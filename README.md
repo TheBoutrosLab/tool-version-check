@@ -56,7 +56,7 @@ tools are outdated, and `2` for configuration or provider errors.
 
 ## YAML Config Format
 
-The `check` command expects a YAML file with a top-level `tools` list. Optional `defaults` apply to every tool, and `provider_options` configure source-wide settings such as conda channels.
+The `check` command expects a YAML file with a top-level `tools` list. Optional `defaults` apply to every tool, and `provider_options` configure source-wide settings such as conda channels. Provider options stay separate from per-tool `metadata`.
 
 ```yaml
 defaults:
