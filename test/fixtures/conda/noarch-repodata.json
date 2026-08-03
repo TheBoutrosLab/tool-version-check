@@ -1,0 +1,11 @@
+{
+  "packages": {},
+  "packages.conda": {
+    "multiqc-1.25-pyhdfd78af_0.conda": {
+      "name": "multiqc",
+      "version": "1.25",
+      "build": "pyhdfd78af_0",
+      "build_number": 0
+    }
+  }
+}

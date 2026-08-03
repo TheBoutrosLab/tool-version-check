@@ -1,0 +1,24 @@
+{
+  "packages": {
+    "bwa-0.7.17-h7132678_9.tar.bz2": {
+      "name": "bwa",
+      "version": "0.7.17",
+      "build": "h7132678_9",
+      "build_number": 9
+    },
+    "samtools-1.20-h50ea8bc_1.tar.bz2": {
+      "name": "samtools",
+      "version": "1.20",
+      "build": "h50ea8bc_1",
+      "build_number": 1
+    }
+  },
+  "packages.conda": {
+    "bwa-0.7.18-h577a1d6_1.conda": {
+      "name": "bwa",
+      "version": "0.7.18",
+      "build": "h577a1d6_1",
+      "build_number": 1
+    }
+  }
+}
