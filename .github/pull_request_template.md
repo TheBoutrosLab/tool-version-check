@@ -1,17 +1,7 @@
 # Description
 <!--- Briefly describe the changes included in this pull request  --->
 
-### Closes #...  <!-- edit if this PR closes an Issue -->
-
-<!-- 
-Admin/maintainer: please edit the 'Pipeline Run Results' or 'Analysis Results' sections as needed for your project repo.  
-Then commit/push the changes so everyone uses this template for future PRs.
-
-For example, if your project is a `pipeline`, then create a 'Pipeline Run Results' section.
-
-If your project is a general data analysis project, then you may want to require an 'Analysis Results' section in order to test
-code from each PR to help prevent creating new bugs.
--->
+### Closes #...
 
 # Checklist
 <!--- Please read each of the following items and confirm by replacing the [ ] with a [X] --->
@@ -41,16 +31,11 @@ _&emsp; To automatically exclude such files using a [.gitignore](https://docs.gi
 
 ### File Updates
 
-- [ ] I have ensured that the version number update follows the [semantic versioning standards](http://semver.org/).
-
 - [ ] I have updated the version number/requirements and added my name to the author list in the `pyproject.toml`.
 
 - [ ] I have updated the version number/feature changes in the `README.md`.
 
 - [ ] I have added the changes included in this pull request to the `CHANGELOG.md` under the next release version or unreleased, and updated the date.
-
-<!---If any previous versions have bugs, add "deprecated" in the version tag and list the bug in the corresponding release--->
-- [ ] I have drafted the new version release with any additions/changes and have linked the `CHANGELOG.md` in the release. 
 
 ### Testing
 
@@ -58,4 +43,4 @@ _&emsp; To automatically exclude such files using a [.gitignore](https://docs.gi
 
 - [ ] I modified the integration test(s) to include the new feature.
 
-- [ ] All existing tests for [this tool] passed locally and/or on the cluster.
+- [ ] All existing tests for versioncheck passed locally and/or on the cluster.
