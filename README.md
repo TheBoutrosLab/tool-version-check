@@ -34,6 +34,7 @@ python3 -m pip install -e '.[dev-dependencies]'
 Check tools from a YAML config file:
 
 ```bash
+versioncheck --version
 versioncheck check tools.yaml
 versioncheck check tools.yaml --format json
 versioncheck check tools.yaml --format markdown
