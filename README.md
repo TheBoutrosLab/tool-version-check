@@ -15,6 +15,75 @@ Current implemented sources:
 
 The package is intended to support release audits, pipeline maintenance, CI checks, and local developer workflows where pinned tool versions need to be compared against the latest available upstream versions.
 
+## Installation
+
+Install the package from the repository root:
+
+```bash
+python3 -m pip install -e .
+```
+
+For development and test dependencies:
+
+```bash
+python3 -m pip install -e '.[dev-dependencies]'
+```
+
+## Usage
+
+The command-line interface is planned but not implemented yet. Use the Python
+API for now.
+
+Check a GitHub repository:
+
+```python
+from versioncheck.models import ToolSpec
+from versioncheck.providers.github import GitHubProvider
+
+provider = GitHubProvider()
+spec = ToolSpec(
+    name="samtools",
+    source="github",
+    package="samtools/samtools",
+    current_version="1.20",
+)
+
+result = provider.check(spec)
+print(result.latest_version)
+print(result.status)
+```
+
+Set `GITHUB_TOKEN` in your environment to increase GitHub API rate limits:
+
+```bash
+export GITHUB_TOKEN=your_token_here
+```
+
+Check a conda package:
+
+```python
+from versioncheck.models import ToolSpec
+from versioncheck.providers.conda import CondaProvider
+
+provider = CondaProvider(
+    channels=["bioconda"],
+    subdirs=["linux-64"],
+)
+spec = ToolSpec(
+    name="samtools",
+    source="conda",
+    package="samtools",
+    current_version="1.20",
+)
+
+result = provider.check(spec)
+print(result.latest_version)
+print(result.status)
+```
+
+`result.status` is one of `unknown`, `current`, `outdated`, or
+`newer_than_source`.
+
 ## License
 
 Author: Yash Patel
