@@ -31,8 +31,30 @@ python3 -m pip install -e '.[dev-dependencies]'
 
 ## Usage
 
-The command-line interface is planned but not implemented yet. Use the Python
-API for now.
+Check tools from a YAML config file:
+
+```bash
+versioncheck check tools.yaml
+versioncheck check tools.yaml --format json
+versioncheck check tools.yaml --format markdown
+```
+
+Check one GitHub repository:
+
+```bash
+versioncheck github samtools/samtools --current 1.20
+```
+
+Check one conda package:
+
+```bash
+versioncheck conda samtools --current 1.20 --channel bioconda --subdir linux-64
+```
+
+The CLI exits with `0` when all checked tools are current, `1` when one or more
+tools are outdated, and `2` for configuration or provider errors.
+
+Use the Python API directly when integrating with other tooling.
 
 Check a GitHub repository:
 
