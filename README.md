@@ -54,6 +54,37 @@ versioncheck conda samtools --current 1.20 --channel bioconda --subdir linux-64
 The CLI exits with `0` when all checked tools are current, `1` when one or more
 tools are outdated, and `2` for configuration or provider errors.
 
+## YAML Config Format
+
+The `check` command expects a YAML file with a top-level `tools` list. Optional `defaults` apply to every tool, and `provider_options` configure source-wide settings such as conda channels.
+
+```yaml
+defaults:
+  include_prereleases: false
+
+provider_options:
+  conda:
+    channels:
+      - bioconda
+      - conda-forge
+    subdirs:
+      - linux-64
+      - noarch
+
+tools:
+  - name: samtools-github
+    source: github
+    package: samtools/samtools
+    current_version: "1.20"
+
+  - name: samtools-conda
+    source: conda
+    package: samtools
+    current_version: "1.20"
+```
+
+Each tool requires `name`, `source`, and `package`. `source` is currently `github` or `conda`; `current_version` is optional.
+
 Use the Python API directly when integrating with other tooling.
 
 Check a GitHub repository:
