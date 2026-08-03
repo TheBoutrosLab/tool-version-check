@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "versioncheck"
 requires-python = ">=3.10"
 authors = [
-    {name = 'REPLACE_NAME', email = 'REPLACE_EMAIL@example.org'}
+    {name = 'Yash Patel', email = 'ypatel@sbpdiscovery.org'}
 ]
 description = 'Check and report the latest available versions of software tools.'
 classifiers = [
