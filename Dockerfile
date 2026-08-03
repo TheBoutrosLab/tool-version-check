@@ -8,11 +8,9 @@ ARG CONDA_ENV_PATH
 
 WORKDIR /tmp/versioncheck
 
-COPY pyproject.toml README.md LICENSE ./
-COPY versioncheck ./versioncheck
 # hatch-vcs reads Git metadata here to derive the installed package version.
-# Release builds require the builder action checkout to fetch tags.
-COPY .git ./.git
+# Copy the full worktree so Git does not see missing tracked files as dirty.
+COPY . .
 
 RUN mamba create -qy -p ${CONDA_ENV_PATH} \
     -c conda-forge \
@@ -26,7 +24,7 @@ RUN mamba create -qy -p ${CONDA_ENV_PATH} \
     mamba install -qy -n base -c conda-forge git && \
     if versioncheck_tag="$(git describe --exact-match --tags \
         --match 'v[0-9]*.[0-9]*.[0-9]*' HEAD 2>/dev/null)"; then \
-        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_VERSIONCHECK="${versioncheck_tag#v}" \
+        SETUPTOOLS_SCM_PRETEND_VERSION="${versioncheck_tag#v}" \
             ${CONDA_ENV_PATH}/bin/pip install --no-build-isolation --no-deps .; \
     else \
         ${CONDA_ENV_PATH}/bin/pip install --no-build-isolation --no-deps .; \
