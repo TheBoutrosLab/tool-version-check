@@ -5,6 +5,7 @@ try:
 except ModuleNotFoundError:
     __version__ = "0+unknown"
 
+from versioncheck.checker import VersionChecker
 from versioncheck.models import (
     CheckReport,
     CheckResult,
@@ -19,6 +20,7 @@ __all__ = [
     "CheckResult",
     "SourceName",
     "ToolSpec",
+    "VersionChecker",
     "VersionCandidate",
     "VersionStatus",
 ]
