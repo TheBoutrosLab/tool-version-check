@@ -9,6 +9,7 @@ from functools import partial
 from pathlib import Path
 from typing import Any, NoReturn, TextIO
 
+from versioncheck import __version__
 from versioncheck.checker import ProviderMap, VersionChecker
 from versioncheck.errors import VersionCheckError
 from versioncheck.models import CheckReport, SourceName, ToolSpec
@@ -33,7 +34,7 @@ def main(
 
     stdout = sys.stdout if stdout is None else stdout
     stderr = sys.stderr if stderr is None else stderr
-    parser = _build_parser(stderr)
+    parser = _build_parser(stdout, stderr)
 
     try:
         args = parser.parse_args(argv)
@@ -49,11 +50,17 @@ def main(
     return _exit_code(report)
 
 
-def _build_parser(stderr: TextIO) -> argparse.ArgumentParser:
-    parser_class: Any = partial(_ArgumentParser, stderr=stderr)
+def _build_parser(stdout: TextIO, stderr: TextIO) -> argparse.ArgumentParser:
+    parser_class: Any = partial(_ArgumentParser, stdout=stdout, stderr=stderr)
     parser = parser_class(
         prog="versioncheck",
         description="Check latest available versions of software tools.",
+    )
+    parser.add_argument(
+        "--version",
+        "-V",
+        action="version",
+        version=f"versioncheck {__version__}",
     )
     subparsers = parser.add_subparsers(
         dest="command",
@@ -266,9 +273,28 @@ class _ParserExit(Exception):
 
 
 class _ArgumentParser(argparse.ArgumentParser):
-    def __init__(self, *args: Any, stderr: TextIO, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *args: Any,
+        stdout: TextIO,
+        stderr: TextIO,
+        **kwargs: Any,
+    ) -> None:
+        self._stdout = stdout
         self._stderr = stderr
         super().__init__(*args, **kwargs)
+
+    def _print_message(self, message: str, file: TextIO | None = None) -> None:
+        if not message:
+            return
+
+        if file is self._stderr or file is sys.stderr:
+            output = self._stderr
+        elif file is None or file is self._stdout or file is sys.stdout:
+            output = self._stdout
+        else:
+            output = file
+        output.write(message)
 
     def exit(self, status: int = 0, message: str | None = None) -> NoReturn:
         if message:

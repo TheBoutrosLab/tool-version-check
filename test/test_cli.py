@@ -1,6 +1,7 @@
 import json
 from io import StringIO
 
+from versioncheck import __version__
 from versioncheck.cli import main
 from versioncheck.errors import ProviderError
 from versioncheck.models import SourceName, ToolSpec, VersionCandidate
@@ -37,6 +38,17 @@ class FailingProvider(VersionProvider):
 
     def list_versions(self, spec: ToolSpec) -> list[VersionCandidate]:
         raise ProviderError("known provider failure")
+
+
+def test_cli_version_option_prints_version_and_returns_zero():
+    stdout = StringIO()
+    stderr = StringIO()
+
+    exit_code = main(["--version"], stdout=stdout, stderr=stderr)
+
+    assert exit_code == 0
+    assert stdout.getvalue() == f"versioncheck {__version__}\n"
+    assert stderr.getvalue() == ""
 
 
 def test_cli_check_outputs_table_and_returns_zero_for_current_tools(tmp_path):
