@@ -45,7 +45,7 @@ def load_config(path: str | Path) -> LoadedConfig:
             "tool entry",
             tool_index=index,
         )
-        tools.append(_tool_spec(tool, defaults, provider_options, config_path, index))
+        tools.append(_tool_spec(tool, defaults, config_path, index))
 
     return LoadedConfig(
         path=config_path,
@@ -57,7 +57,6 @@ def load_config(path: str | Path) -> LoadedConfig:
 def _tool_spec(
     tool: Mapping[str, object],
     defaults: Mapping[str, object],
-    provider_options: Mapping[SourceName, Mapping[str, object]],
     config_path: Path,
     index: int,
 ) -> ToolSpec:
@@ -67,7 +66,6 @@ def _tool_spec(
     source = _required_source(merged, config_path, tool_name, index)
     metadata = _merged_metadata(
         defaults=defaults,
-        provider_metadata=provider_options.get(source, {}),
         tool=tool,
         config_path=config_path,
         tool_name=tool_name,
@@ -94,7 +92,6 @@ def _tool_spec(
 def _merged_metadata(
     *,
     defaults: Mapping[str, object],
-    provider_metadata: Mapping[str, object],
     tool: Mapping[str, object],
     config_path: Path,
     tool_name: str | None,
@@ -107,7 +104,6 @@ def _merged_metadata(
 
     return {
         **default_metadata,
-        **provider_metadata,
         **tool_metadata,
     }
 
