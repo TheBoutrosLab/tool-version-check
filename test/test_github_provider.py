@@ -302,6 +302,33 @@ def test_check_rejects_cross_origin_github_pagination_links():
     ]
 
 
+def test_check_rejects_port_zero_github_pagination_links():
+    session = FakeSession(
+        [
+            FakeResponse(
+                [{"tag_name": "v1.0.0"}],
+                headers={"Link": '<https://api.example:0/page2>; rel="next"'},
+            )
+        ]
+    )
+    provider = GitHubProvider(
+        session=session,
+        token="secret-token",
+        api_base_url="https://api.example",
+    )
+    spec = ToolSpec(name="samtools", source="github", package="samtools/samtools")
+
+    result = provider.check(spec)
+
+    assert result.status == "unknown"
+    assert result.message == (
+        "Refusing GitHub pagination link outside the configured API origin"
+    )
+    assert session.requests == [
+        ("https://api.example/repos/samtools/samtools/releases", 20.0)
+    ]
+
+
 def test_provider_uses_github_token_from_environment(monkeypatch):
     monkeypatch.setenv("GITHUB_TOKEN", "secret-token")
     session = FakeSession([FakeResponse([]), FakeResponse([])])
