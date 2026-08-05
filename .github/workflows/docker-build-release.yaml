@@ -31,6 +31,6 @@ jobs:
       packages: write
     steps:
       - uses: TheBoutrosLab/tool-Docker-action@v2
-      # Uncomment if you expect to use non-SemVer release tags
-      # with:
-      #   non-semver-tags: true
+        with:
+          build-args: |
+            VERSIONCHECK_VERSION=${{ github.ref_type == 'tag' && github.ref_name || format('0.dev0+g{0}', github.sha) }}
