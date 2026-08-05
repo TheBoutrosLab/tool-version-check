@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Changed
+
+- Pass GitHub ref metadata into Docker builds instead of copying Git history
+
 ### Security
 
 - Reject cross-origin GitHub pagination links before sending authenticated requests
