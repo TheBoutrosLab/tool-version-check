@@ -1,16 +1,11 @@
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.tox/
-.nox/
-.coverage
-.coverage.*
-cov.xml
-pytest.xml
-htmlcov/
-build/
-dist/
-*.egg-info/
-.venv/
-env/
-venv/
+# Include only files copied by the Dockerfile.
+**
+!Dockerfile
+!pyproject.toml
+!README.md
+!LICENSE
+!versioncheck/
+!versioncheck/**
+versioncheck/_version.py
+versioncheck/**/__pycache__/
+versioncheck/**/*.py[cod]

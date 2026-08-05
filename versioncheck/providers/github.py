@@ -6,6 +6,7 @@ import os
 from collections.abc import Mapping, MutableMapping
 from datetime import datetime
 from typing import Protocol
+from urllib.parse import urljoin, urlsplit
 
 import requests
 
@@ -163,7 +164,12 @@ class GitHubProvider(VersionProvider):
                 )
 
             items.extend(payload)
-            url = _next_link(response.headers)
+            next_link = _next_link(response.headers)
+            url = (
+                _validated_pagination_url(url, next_link, self._api_base_url)
+                if next_link is not None
+                else None
+            )
 
         return items
 
@@ -249,6 +255,40 @@ def _next_link(headers: Mapping[str, str]) -> str | None:
         return section[start + 1 : end]
 
     return None
+
+
+def _validated_pagination_url(
+    current_url: str, next_link: str, api_base_url: str
+) -> str:
+    """Resolve a pagination link without allowing authorization to change origin."""
+
+    candidate_url = urljoin(current_url, next_link)
+    if _url_origin(candidate_url) != _url_origin(api_base_url):
+        raise ProviderError(
+            "Refusing GitHub pagination link outside the configured API origin"
+        )
+    return candidate_url
+
+
+def _url_origin(url: str) -> tuple[str, str, int]:
+    parsed = urlsplit(url)
+    if (
+        parsed.scheme.casefold() not in {"http", "https"}
+        or parsed.hostname is None
+        or parsed.username is not None
+        or parsed.password is not None
+    ):
+        raise ProviderError("GitHub API URL must have a valid HTTP(S) origin")
+
+    try:
+        port = parsed.port
+    except ValueError as exc:
+        raise ProviderError("GitHub API URL has an invalid port") from exc
+
+    scheme = parsed.scheme.casefold()
+    default_port = 443 if scheme == "https" else 80
+    effective_port = port if port is not None else default_port
+    return scheme, parsed.hostname.casefold(), effective_port
 
 
 def _http_error(response: _ResponseLike, package: str) -> NetworkError:
