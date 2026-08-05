@@ -287,7 +287,8 @@ def _url_origin(url: str) -> tuple[str, str, int]:
 
     scheme = parsed.scheme.casefold()
     default_port = 443 if scheme == "https" else 80
-    return scheme, parsed.hostname.casefold(), port or default_port
+    effective_port = port if port is not None else default_port
+    return scheme, parsed.hostname.casefold(), effective_port
 
 
 def _http_error(response: _ResponseLike, package: str) -> NetworkError:
