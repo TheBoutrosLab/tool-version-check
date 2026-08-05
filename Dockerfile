@@ -5,12 +5,12 @@ ARG CONDA_ENV_PATH=/opt/conda/envs/versioncheck
 FROM condaforge/miniforge3:${MINIFORGE_VERSION} AS builder
 
 ARG CONDA_ENV_PATH
+ARG VERSIONCHECK_VERSION=0+unknown
 
 WORKDIR /tmp/versioncheck
 
-# hatch-vcs reads Git metadata here to derive the installed package version.
-# Copy the full worktree so Git does not see missing tracked files as dirty.
-COPY . .
+COPY pyproject.toml README.md LICENSE ./
+COPY versioncheck ./versioncheck
 
 RUN mamba create -qy -p ${CONDA_ENV_PATH} \
     -c conda-forge \
@@ -21,14 +21,8 @@ RUN mamba create -qy -p ${CONDA_ENV_PATH} \
     packaging \
     pyyaml \
     requests && \
-    mamba install -qy -n base -c conda-forge git && \
-    if versioncheck_tag="$(git describe --exact-match --tags \
-        --match 'v[0-9]*.[0-9]*.[0-9]*' HEAD 2>/dev/null)"; then \
-        SETUPTOOLS_SCM_PRETEND_VERSION="${versioncheck_tag#v}" \
-            ${CONDA_ENV_PATH}/bin/pip install --no-build-isolation --no-deps .; \
-    else \
-        ${CONDA_ENV_PATH}/bin/pip install --no-build-isolation --no-deps .; \
-    fi && \
+    SETUPTOOLS_SCM_PRETEND_VERSION="${VERSIONCHECK_VERSION#v}" \
+        ${CONDA_ENV_PATH}/bin/pip install --no-build-isolation --no-deps . && \
     mamba clean -afy && \
     rm -rf /tmp/versioncheck
 
