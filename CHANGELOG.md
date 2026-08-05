@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2026-08-05
 
 ### Changed
 
@@ -18,7 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.0.2] - 2026-08-03
 
-## Fixed
+### Fixed
 
 - Use full repo to avoid false repo modification detection by git
 
@@ -33,3 +33,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 - Initial version of `versioncheck`
+
+[1.0.0]: https://github.com/TheBoutrosLab/tool-version-check/releases/tag/v1.0.0
+[1.0.1]: https://github.com/TheBoutrosLab/tool-version-check/compare/v1.0.0...v1.0.1
+[1.0.2]: https://github.com/TheBoutrosLab/tool-version-check/compare/v1.0.1...v1.0.2
+[1.1.0]: https://github.com/TheBoutrosLab/tool-version-check/compare/v1.0.2...v1.1.0
